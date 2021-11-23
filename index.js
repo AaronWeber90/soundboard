@@ -48,3 +48,23 @@ navbtn.addEventListener("click", () => {
         document.body.style.overflow = "hidden"
     }
 })
+
+const gridSizeInput = document.getElementById("grid-size")
+const gridSizeLabel = document.getElementById("grid-size-label")
+const soundContainer = document.querySelector(".sound-container")
+gridSizeInput.addEventListener("change", () => {
+    let gridVar = ""
+    gridSizeLabel.textContent = "Grid Size: " + gridSizeInput.value
+    switch (gridSizeInput.value) {
+        case "2":
+            gridVar = "150"
+            break;
+        case "3":
+            gridVar = "100" 
+            break;
+        case "4":
+            gridVar = "60"
+            break;
+    }   
+    soundContainer.style.gridTemplateColumns = `repeat(auto-fill, minmax(${gridVar}px, 1fr))` 
+})
