@@ -63,7 +63,7 @@ gridSizeInput.addEventListener("change", () => {
             gridVar = "100" 
             break;
         case "4":
-            gridVar = "60"
+            gridVar = "70"
             break;
     }   
     soundContainer.style.gridTemplateColumns = `repeat(auto-fill, minmax(${gridVar}px, 1fr))` 
