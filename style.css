@@ -22,7 +22,6 @@ header {
   position: sticky;
   top: 0;
   z-index: 2;
-  /* position: relative; */
 }
 
 .header__logo {
@@ -85,15 +84,6 @@ header button {
   max-width: 900px;
   margin: 0 auto;
 }
-
-/* h1 {
-  grid-column: 1 / -1;
-  text-align: center;
-  margin: 0;
-  font-size: 3rem;
-  font-family: "Nova Mono", monospace;
-  line-height: 0.6;
-} */
 
 h1 span {
   font-size: 0.5em;

@@ -48,28 +48,3 @@ navbtn.addEventListener("click", () => {
         document.body.style.overflow = "hidden"
     }
 })
-
-
-
-//const catAudio = new Audio("../sounds/meow.mp3")
-// const duration = catAudio.duration;
-/*
-for (let i = 0; i < allBtn.length; i++) {
-    let audioVar = new Audio(allSounds[i])
-    allBtn[i].addEventListener("click", function playSound() {
-  //      for (let btn of allBtn) {
-   //         btn.disabled = true
-   //         currentTime = 0;
-     //   } 
-        console.log("hi")
-        audioVar.load()
-        audioVar.play()
-        console.log(audioVar)
-    })
-}
-
-stopBtn.addEventListener("click", () => {
-    catAudio.pause()
-    console.log("STOP")
-})
-*/
