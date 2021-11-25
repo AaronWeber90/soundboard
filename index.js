@@ -1,4 +1,7 @@
 import {soundData} from "./sounds.js"
+import {quotes} from "./quotes.js"
+
+console.log(quotes)
 
 const allBtn = document.querySelectorAll(".btn")
 
@@ -57,14 +60,21 @@ gridSizeInput.addEventListener("change", () => {
     gridSizeLabel.textContent = "Grid Size: " + gridSizeInput.value
     switch (gridSizeInput.value) {
         case "2":
-            gridVar = "150"
+            gridVar = "2"
             break;
         case "3":
-            gridVar = "100" 
+            gridVar = "3" 
             break;
         case "4":
-            gridVar = "80"
+            gridVar = "4"
             break;
     }   
-    soundContainer.style.gridTemplateColumns = `repeat(auto-fill, minmax(${gridVar}px, 1fr))` 
+    soundContainer.style.gridTemplateColumns = `repeat(${gridVar}, 1fr)` 
 })
+
+function randomQuote() {
+    const quoteContainer = document.querySelector(".quote-container")
+    const rndNum = Math.floor(Math.random() * quotes.length)
+    quoteContainer.innerHTML = `${quotes[rndNum].quote}<br> - ${quotes[rndNum].owner}`
+}
+randomQuote()
