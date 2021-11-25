@@ -59,14 +59,14 @@ gridSizeInput.addEventListener("change", () => {
     let gridVar = ""
     gridSizeLabel.textContent = "Grid Size: " + gridSizeInput.value
     switch (gridSizeInput.value) {
+        case "1":
+            gridVar = "1"
+            break;
         case "2":
-            gridVar = "2"
+            gridVar = "2" 
             break;
         case "3":
-            gridVar = "3" 
-            break;
-        case "4":
-            gridVar = "4"
+            gridVar = "3"
             break;
     }   
     soundContainer.style.gridTemplateColumns = `repeat(${gridVar}, 1fr)` 
@@ -75,6 +75,6 @@ gridSizeInput.addEventListener("change", () => {
 function randomQuote() {
     const quoteContainer = document.querySelector(".quote-container")
     const rndNum = Math.floor(Math.random() * quotes.length)
-    quoteContainer.innerHTML = `${quotes[rndNum].quote}<br> - ${quotes[rndNum].owner}`
+    quoteContainer.innerHTML = ` <p class="quote-text">${quotes[rndNum].quote}</p><p class="quote-owner">- ${quotes[rndNum].owner}</p>`
 }
 randomQuote()

@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --vic-red: #c70000;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -73,6 +77,11 @@ header img {
   margin-top: 1em;
 }
 
+.nav-list-icon {
+  color: var(--vic-red);
+  margin-right: 0.4em;
+}
+
 .sound-container {
   display: grid;
   padding: 0 1em 1em;
@@ -131,4 +140,30 @@ h1 span {
 
 .quote-container {
   text-align: center;
+}
+
+.quote-container p {
+  margin: 0;
+}
+
+.quote-text {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.quote-text::before {
+  content: '"';
+  margin-right: 0.4em;
+  color: var(--vic-red);
+}
+
+.quote-text::after {
+  content: '"';
+  margin-left: 0.4em;
+  color: var(--vic-red);
+}
+
+.quote-owner {
+  font-weight: 400;
+  color: var(--vic-red);
 }
