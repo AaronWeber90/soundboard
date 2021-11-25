@@ -82,6 +82,23 @@ header img {
   margin-right: 0.4em;
 }
 
+.nav-list button {
+  font-family: inherit;
+  padding: 0.6em 1.2em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+
+.nav-list button + button {
+  margin-left: 1em;
+}
+
+#grid-size {
+  width: 100%;
+}
+
 .sound-container {
   display: grid;
   padding: 0 1em 1em;
