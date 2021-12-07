@@ -10,8 +10,9 @@ function playSound(i) {
     // audioVar.load()
     audioVar.play()
     toggleDisable(1)
-    console.log(audioVar)
     soundEnd(audioVar, i)
+    changeVolume(audioVar)
+    volumeInput.addEventListener("change", () => changeVolume(audioVar))
 }
 
 function showActive(i) {
@@ -72,9 +73,32 @@ gridSizeInput.addEventListener("change", () => {
     soundContainer.style.gridTemplateColumns = `repeat(${gridVar}, 1fr)` 
 })
 
+
+const volumeInput = document.getElementById("audio-volume")
+const volumeLabel = document.getElementById("audio-volume-label")
+
+function changeVolume(audioVar) {
+    audioVar.volume = volumeInput.value / 10
+    volumeLabel.textContent = "Volume: " + volumeInput.value
+}
+
+
 function randomQuote() {
     const quoteContainer = document.querySelector(".quote-container")
     const rndNum = Math.floor(Math.random() * quotes.length)
     quoteContainer.innerHTML = ` <p class="quote-text">${quotes[rndNum].quote}</p><p class="quote-owner">- ${quotes[rndNum].owner}</p>`
 }
 randomQuote()
+
+
+// TOGGLE THEME
+const darkThemeBtn = document.querySelector(".dark-theme-btn")
+const lightThemeBtn = document.querySelector(".light-theme-btn")
+
+darkThemeBtn.addEventListener("click", () => {
+    document.documentElement.className = "dark-theme";
+})
+
+lightThemeBtn.addEventListener("click", () => {
+    document.documentElement.className = "light-theme";
+})

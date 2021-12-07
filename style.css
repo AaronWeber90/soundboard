@@ -1,17 +1,37 @@
 * {
   box-sizing: border-box;
+  transition: 500ms;
 }
 
 :root {
   --vic-red: #c70000;
 }
 
+.dark-theme {
+  --background-clr: #000;
+  --menu-background-clr: rgba(0, 0, 0, 0.965);
+  --soundbard-text-clr: #000;
+  --menu-text-clr: #fff;
+  --highlight-clr: #c70000;
+  --menu-btn-clr: #fbf7f5;
+}
+
+.light-theme {
+  --background-clr: #c7d8e0;
+  --menu-background-clr: #c7d8e0f6;
+  --soundbard-text-clr: #000;
+  --menu-text-clr: #000;
+  --highlight-clr: #1f5272;
+  --highlight-clr: #173a67;
+  --menu-btn-clr: #fff;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: black;
+  background: var(--background-clr);
   /* position: relative; */
-  color: white;
+  /* color: var(--background-clr); */
   font-family: "Oswald", sans-serif;
 }
 
@@ -19,8 +39,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: black;
-  color: white;
+  background: var(--background-clr);
+  color: var(--menu-text-clr);
   padding: 1em;
   gap: 1em;
   position: sticky;
@@ -31,17 +51,18 @@ header {
 .header__logo {
   display: flex;
   align-items: center;
+  gap: 0.3em;
 }
 
 header img {
-  width: 50px;
-  height: auto;
+  height: 40px;
+  width: auto;
 }
 
 #nav-btn {
   background: none;
   border: none;
-  color: white;
+  color: var(--menu-text-clr);
   border-radius: 4px;
   padding: 0.3em;
   font-size: 1.5rem;
@@ -57,7 +78,7 @@ header img {
   top: 0px;
   left: 0;
   padding: 7em 1em 1em;
-  background: black;
+  background: var(--menu-background-clr);
   right: 0;
   min-height: 100vh;
   z-index: -1;
@@ -65,6 +86,10 @@ header img {
 
 .menu-closed {
   display: none;
+}
+
+.menu-btn {
+  background: var(--menu-btn-clr);
 }
 
 .nav-list {
@@ -78,7 +103,7 @@ header img {
 }
 
 .nav-list-icon {
-  color: var(--vic-red);
+  color: var(--highlight-clr);
   margin-right: 0.4em;
 }
 
@@ -95,7 +120,8 @@ header img {
   margin-left: 1em;
 }
 
-#grid-size {
+#grid-size,
+#audio-volume {
   width: 100%;
 }
 
@@ -106,7 +132,6 @@ header img {
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 100px;
   grid-gap: 1em;
-  background: black;
   min-height: 100vh;
   max-width: 900px;
   margin: 0 auto;
@@ -125,8 +150,7 @@ h1 span {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
   -webkit-box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
   -moz-box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
-  background-color: #fbf7f5;
-  background: white;
+  background: var(--menu-text-clr);
   position: relative;
   transition: 200ms;
   font-family: inherit;
@@ -171,16 +195,16 @@ h1 span {
 .quote-text::before {
   content: '"';
   margin-right: 0.4em;
-  color: var(--vic-red);
+  color: var(--highlight-clr);
 }
 
 .quote-text::after {
   content: '"';
   margin-left: 0.4em;
-  color: var(--vic-red);
+  color: var(--highlight-clr);
 }
 
 .quote-owner {
   font-weight: 400;
-  color: var(--vic-red);
+  color: var(--highlight-clr);
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-theme">
 
 <head>
     <meta charset="UTF-8">
@@ -19,8 +19,10 @@
 <body>
     <header>
         <div class="header__logo">
-            <a href="javascript:window.location.reload(true)"><img src="images/vic-logo.png" alt="vic-logo"></a>
-            <span>Sound board</span>
+            <!-- <a href="javascript:window.location.reload(true)"> -->
+            <img src="images/vic-logo-long.png" alt="vic-logo">
+            <!-- </a> -->
+            <span> - Sound board</span>
         </div>
         <div class="nav-btn-wrapper">
             <button id="nav-btn"><i class="fas fa-bars"></i></button>
@@ -28,12 +30,34 @@
 
         <nav class="menu-container menu-closed">
             <ul class="nav-list">
-                <li><i class="fas fa-heart nav-list-icon"></i> Favorites</li>
-                <li><button>All sounds</button><button>Favorites</button></li>
-                <li><i class="fas fa-th-large nav-list-icon"></i> <label for="grid-size" id="grid-size-label">Grid Size:
-                        3</label>
+                <li>
+                    <i class="fas fa-adjust nav-list-icon"></i> Theme
                 </li>
-                <li><input type="range" id="grid-size" name="" min="1" max="3" value="3"></li>
+                <li>
+                    <button class="menu-btn light-theme-btn">Light</button>
+                    <button class="menu-btn dark-theme-btn">Dark</button>
+                </li>
+                <li>
+                    <i class="fas fa-heart nav-list-icon"></i> Favorites
+                </li>
+                <li>
+                    <button class="menu-btn">All sounds</button>
+                    <button class="menu-btn">Favorites</button>
+                </li>
+                <li>
+                    <i class="fas fa-volume-up nav-list-icon"></i>
+                    <label for="audio-volume" id="audio-volume-label">Volume: 10</label>
+                </li>
+                <li>
+                    <input type="range" id="audio-volume" name="" min="0" max="10" value="10">
+                </li>
+                <li>
+                    <i class="fas fa-th-large nav-list-icon"></i>
+                    <label for="grid-size" id="grid-size-label">Grid Size: 3</label>
+                </li>
+                <li>
+                    <input type="range" id="grid-size" name="" min="1" max="3" value="3">
+                </li>
             </ul>
             <div class="quote-container"></div>
             <p>by Aaron</p>
