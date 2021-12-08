@@ -1,44 +1,78 @@
 import {soundData} from "./sounds.js"
 import {quotes} from "./quotes.js"
 
-console.log(quotes)
+const soundContainer = document.querySelector(".sound-container")
+let audio = ""
 
-const allBtn = document.querySelectorAll(".btn")
 
-function playSound(i) {
-    let audioVar = new Audio(soundData[i].url)
-    // audioVar.load()
-    audioVar.play()
-    toggleDisable(1)
-    soundEnd(audioVar, i)
-    changeVolume(audioVar)
-    volumeInput.addEventListener("change", () => changeVolume(audioVar))
+// RENDER SOUND BTN
+function renderSoundBtn() { 
+    const allSoundBtn = soundData.map(item => `<button class="${item.isFavorite ? "sound-btn sound-favorite" : "sound-btn"}">${item.name}</button>`).join("")
+    soundContainer.innerHTML = allSoundBtn
 }
+renderSoundBtn()
 
-function showActive(i) {
-    allBtn[i].classList.add("active")
-}
 
-function toggleDisable(disabledVar) {
-    for (let btn of allBtn) {
-    btn.disabled = disabledVar
+// ADD SOUNDS
+function addSound() {
+    const allBtn = document.getElementsByClassName("sound-btn")
+    for (let i= 0; i < allBtn.length; i++) {
+        allBtn[i].addEventListener("click", function() {
+            playSound(i, allBtn)
+        })
     }
 }
+addSound()
 
-function soundEnd(audioVar, i) {
+
+//PLAY SOUND
+function playSound(i, allBtn) {
+    if (audio === "") {
+        audio = new Audio(soundData[i].url)
+        audio.play()
+        allBtn[i].classList.add("active")
+    } else if (!allBtn[i].classList.contains("active")) {
+        audio.pause()
+        audio.currentTime = 0
+        for(let btn of allBtn) {
+            btn.classList.remove("active")
+        }
+        audio = new Audio(soundData[i].url)
+        allBtn[i].classList.add("active")
+        audio.play()
+    } else if (!audio.paused) {
+        audio.pause()
+    } else {
+        audio.play()
+    }
+
+        volumeInput.addEventListener("change", () => changeVolume(audio))
+        soundEnd(audio, i, allBtn)
+}
+
+// SOUND END
+function soundEnd(audioVar, i, allBtn) {
     audioVar.onended = () => {
-    console.log("SOUND END")
-    toggleDisable(0)
     allBtn[i].classList.remove("active")
     }
 }
 
-for (let i= 0; i < allBtn.length; i++) {
-    allBtn[i].addEventListener("click", function() {
-        playSound(i)
-        showActive(i)
-    })
-}
+// function showActive(i) {
+//     allBtn[i].classList.add("active")
+// }
+
+// function toggleDisable(disabledVar) {
+//     for (let btn of allBtn) {
+//     btn.disabled = disabledVar
+//     }
+// }
+
+// for (let i= 0; i < allBtn.length; i++) {
+//     allBtn[i].addEventListener("click", function() {
+//         playSound(i)
+//         showActive(i)
+//     })
+// }
 
 const navbtn = document.getElementById("nav-btn")
 const menuEl = document.querySelector(".menu-container")
@@ -55,7 +89,7 @@ navbtn.addEventListener("click", () => {
 
 const gridSizeInput = document.getElementById("grid-size")
 const gridSizeLabel = document.getElementById("grid-size-label")
-const soundContainer = document.querySelector(".sound-container")
+
 gridSizeInput.addEventListener("change", () => {
     let gridVar = ""
     gridSizeLabel.textContent = "Grid Size: " + gridSizeInput.value
@@ -102,3 +136,6 @@ darkThemeBtn.addEventListener("click", () => {
 lightThemeBtn.addEventListener("click", () => {
     document.documentElement.className = "light-theme";
 })
+
+
+//AUDIO SPEED

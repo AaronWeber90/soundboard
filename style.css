@@ -11,6 +11,7 @@
   --background-clr: #000;
   --menu-background-clr: rgba(0, 0, 0, 0.965);
   --soundbard-text-clr: #000;
+  --sound-btn-clr: #fff;
   --menu-text-clr: #fff;
   --highlight-clr: #c70000;
   --menu-btn-clr: #fbf7f5;
@@ -18,10 +19,10 @@
 
 .light-theme {
   --background-clr: #c7d8e0;
-  --menu-background-clr: #c7d8e0f6;
+  --menu-background-clr: #c7d8e0ef;
   --soundbard-text-clr: #000;
+  --sound-btn-clr: #fff;
   --menu-text-clr: #000;
-  --highlight-clr: #1f5272;
   --highlight-clr: #173a67;
   --menu-btn-clr: #fff;
 }
@@ -57,6 +58,10 @@ header {
 header img {
   height: 40px;
   width: auto;
+}
+
+header span {
+  font-size: 0.8rem;
 }
 
 #nav-btn {
@@ -96,6 +101,8 @@ header img {
   list-style: none;
   padding: 0;
   margin: 0;
+  width: 65%;
+  max-width: 300px;
 }
 
 .nav-list li + li {
@@ -141,7 +148,7 @@ h1 span {
   font-size: 0.5em;
 }
 
-.btn {
+.sound-btn {
   border: none;
   padding: 0.5em;
   border-radius: 5px;
@@ -150,18 +157,18 @@ h1 span {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
   -webkit-box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
   -moz-box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
-  background: var(--menu-text-clr);
+  background: var(--sound-btn-clr);
   position: relative;
   transition: 200ms;
   font-family: inherit;
 }
 
-.btn:hover,
-.btn:focus {
+.sound-btn:hover,
+.sound-btn:focus {
   background-color: #f0e2db;
 }
 
-.btn:disabled {
+.sound-btn:disabled {
   opacity: 0.8;
 }
 
@@ -170,10 +177,11 @@ h1 span {
   position: absolute;
   top: 5px;
   right: 5px;
+  animation: isPlaying 1s infinite linear alternate;
 }
 
-.btn::before {
-  content: "🤍";
+.sound-favorite::before {
+  content: "❤️";
   position: absolute;
   top: 5px;
   left: 5px;
@@ -207,4 +215,13 @@ h1 span {
 .quote-owner {
   font-weight: 400;
   color: var(--highlight-clr);
+}
+
+@keyframes isPlaying {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
 }
