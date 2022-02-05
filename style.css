@@ -31,8 +31,6 @@ body {
   margin: 0;
   padding: 0;
   background: var(--background-clr);
-  /* position: relative; */
-  /* color: var(--background-clr); */
   font-family: "Oswald", sans-serif;
 }
 
@@ -148,6 +146,9 @@ h1 span {
 }
 
 .sound-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   padding: 0.5em;
   border-radius: 5px;
@@ -179,14 +180,21 @@ h1 span {
   animation: isPlaying 1s infinite linear alternate;
 }
 
-.sound-favorite::before {
+/* .sound-favorite::before {
   content: "❤️";
   position: absolute;
   top: 5px;
   left: 5px;
+} */
+
+.favorite-sound-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5em;
 }
 
-.quote-container {
+/* .quote-container {
   text-align: center;
 }
 
@@ -214,7 +222,7 @@ h1 span {
 .quote-owner {
   font-weight: 400;
   color: var(--highlight-clr);
-}
+} */
 
 @keyframes isPlaying {
   0% {

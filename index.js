@@ -1,88 +1,109 @@
 import {soundData} from "./sounds.js";
 
-const soundContainer = document.querySelector(".sound-container");
-// const favoriteSoundsBtn = document.querySelector(".favorite-sounds-btn");
+let soundContainer = document.querySelector(".sound-container");
+const favoriteSoundsBtn = document.querySelector(".favorite-sounds-btn");
 const allSoundsBtn = document.querySelector(".all-sounds-btn");
-let audio = "";
+let audio = null;
 
-// RENDER SOUND BTN
-function renderAllSounds() {
-  const allSoundBtn = soundData
-    .map(
-      (item) =>
-        `<button class="${
-          item.isFavorite ? "sound-btn sound-favorite" : "sound-btn"
-        }">${item.name}</button>`
-    )
-    .join("");
-  soundContainer.innerHTML = allSoundBtn;
+let favSoundsArr = [];
+
+// RENDER SOUND BUTTON
+function renderSoundBtn(sound, index, arr) {
+  const soundBtn = document.createElement("div");
+  // const soundBtnTop = document.createElement("div");
+  // const soundBtnBottom = document.createElement("div");
+  soundBtn.classList.add("sound-btn");
+  soundBtn.textContent = sound.name;
+
+  const favoriteIconEl = document.createElement("div");
+  favoriteIconEl.textContent = sound.isFavorite ? "❤️" : "🤍";
+  favoriteIconEl.classList.add("favorite-sound-icon");
+  favoriteIconEl.addEventListener("mousedown", () => mouseDown(sound));
+  favoriteIconEl.addEventListener("mouseup", () => mouseUp());
+
+  sound.isFavorite && soundBtn.classList.add("sound-favorite");
+  soundBtn.appendChild(favoriteIconEl);
+  soundBtn.addEventListener("click", () => playSound(soundBtn, arr, sound));
+  soundContainer.appendChild(soundBtn);
 }
-renderAllSounds();
 
-allSoundsBtn.addEventListener("click", () => {
-  renderAllSounds();
-  addSound();
-});
+let timer = null;
+const tempo = 1000;
+const mouseDown = (sound) => {
+  timer = setTimeout(() => {
+    favSoundsArr = soundData.map((item) => {
+      return item.id === sound.id
+        ? {
+            ...item,
+            isFavorite: !item.isFavorite,
+          }
+        : item;
+    });
+    console.log(favSoundsArr);
+
+    // console.log({
+    //   ...sound,
+    //   isFavorite: !sound.isFavorite,
+    // });
+    // return {
+    //   ...sound,
+    //   isFavorite: !sound.isFavorite,
+    // };
+  }, tempo);
+};
+const mouseUp = () => {
+  clearTimeout(timer);
+};
+
+// RENDER SOUND CONTAINER
+function renderSoundContainer(arr) {
+  soundContainer.innerHTML = "";
+  arr.forEach((sound, index, arr) =>
+    renderSoundBtn(sound, index, arr, sound.id)
+  );
+}
+renderSoundContainer(soundData);
+
+// RENDER ALL SOUNDS
+allSoundsBtn.addEventListener("click", () => renderSoundContainer(soundData));
 
 // RENDER FAVORITE SOUNDS
-// function renderFavoriteSounds() {
-//   const favoriteSounds = soundData
-//     .map((item) => {
-//       return item.isFavorite
-//         ? `<button class="sound-btn sound-favorite">${item.name}</button>`
-//         : null;
-//     })
-//     .join("");
-//   soundContainer.innerHTML = favoriteSounds;
-// }
-// favoriteSoundsBtn.addEventListener("click", () => {
-//   renderFavoriteSounds();
-//   addSound();
-// });
-
-// ADD SOUNDS
-function addSound() {
-  const allBtn = document.getElementsByClassName("sound-btn");
-  for (let i = 0; i < allBtn.length; i++) {
-    allBtn[i].addEventListener("click", function () {
-      playSound(i, allBtn);
-    });
-  }
-}
-addSound();
+favoriteSoundsBtn.addEventListener("click", () => {
+  const favoriteSounds = favSoundsArr.filter((sound) => sound.isFavorite);
+  renderSoundContainer(favoriteSounds);
+});
 
 //PLAY SOUND
-function playSound(i, allBtn) {
-  if (audio === "") {
-    audio = new Audio(soundData[i].url);
+function playSound(soundBtn, arr, sound) {
+  if (audio === null) {
+    audio = new Audio(arr[sound.id - 1].url);
     audio.play();
-    allBtn[i].classList.add("active");
-  } else if (!allBtn[i].classList.contains("active")) {
+    soundBtn.classList.add("active");
+  } else if (!soundBtn.classList.contains("active")) {
     audio.pause();
     audio.currentTime = 0;
-    for (let btn of allBtn) {
+    for (let btn of document.querySelectorAll(".sound-btn")) {
       btn.classList.remove("active");
     }
-    audio = new Audio(soundData[i].url);
-    allBtn[i].classList.add("active");
+    audio = new Audio(soundData[sound.id - 1].url);
+    soundBtn.classList.add("active");
     audio.play();
   } else if (!audio.paused) {
     audio.pause();
   } else {
     audio.play();
   }
-
-  volumeInput.addEventListener("change", () => changeVolume(audio));
-  soundEnd(audio, i, allBtn);
+  soundEnd(soundBtn, audio);
 }
 
 // SOUND END
-function soundEnd(audioVar, i, allBtn) {
-  audioVar.onended = () => {
-    allBtn[i].classList.remove("active");
+function soundEnd(soundBtn, audio) {
+  audio.onended = () => {
+    soundBtn.classList.remove("active");
   };
 }
 
+// MENU LOGIC
 const navbtn = document.getElementById("nav-btn");
 const menuEl = document.querySelector(".menu-container");
 navbtn.addEventListener("click", () => {
@@ -98,7 +119,6 @@ navbtn.addEventListener("click", () => {
 
 const gridSizeInput = document.getElementById("grid-size");
 const gridSizeLabel = document.getElementById("grid-size-label");
-
 gridSizeInput.addEventListener("change", () => {
   let gridVar = "";
   gridSizeLabel.textContent = "Grid Size: " + gridSizeInput.value;
@@ -116,6 +136,7 @@ gridSizeInput.addEventListener("change", () => {
   soundContainer.style.gridTemplateColumns = `repeat(${gridVar}, 1fr)`;
 });
 
+// VOLUME LOGIC
 const volumeInput = document.getElementById("audio-volume");
 const volumeLabel = document.getElementById("audio-volume-label");
 
