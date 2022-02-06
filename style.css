@@ -12,6 +12,7 @@
   --menu-background-clr: rgba(0, 0, 0, 0.965);
   --soundbard-text-clr: #000;
   --sound-btn-clr: #fff;
+  --sound-btn-shadow: #c7000088;
   --menu-text-clr: #fff;
   --highlight-clr: #c70000;
   --menu-btn-clr: #fbf7f5;
@@ -22,6 +23,7 @@
   --menu-background-clr: #c7d8e0ef;
   --soundbard-text-clr: #000;
   --sound-btn-clr: #fff;
+  --sound-btn-shadow: rgba(99, 99, 99, 0.2);
   --menu-text-clr: #000;
   --highlight-clr: #173a67;
   --menu-btn-clr: #fff;
@@ -154,9 +156,9 @@ h1 span {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
-  -webkit-box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
-  -moz-box-shadow: rgba(99, 99, 99, 0.2) 0px 10px 8px 0px;
+  box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
+  -webkit-box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
+  -moz-box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
   background: var(--sound-btn-clr);
   position: relative;
   transition: 200ms;
@@ -173,7 +175,9 @@ h1 span {
 }
 
 .active:after {
-  content: "🔊";
+  font-family: "Font Awesome 5 Free";
+  content: "\f144";
+  font-weight: 400;
   position: absolute;
   top: 5px;
   right: 5px;
