@@ -180,19 +180,37 @@ h1 span {
   animation: isPlaying 1s infinite linear alternate;
 }
 
-/* .sound-favorite::before {
+.sound-favorite::before {
   content: "❤️";
   position: absolute;
   top: 5px;
   left: 5px;
-} */
+}
 
-.favorite-sound-icon {
+.no-favorites-text {
+  color: var(--menu-text-clr);
+  grid-column: 1 / -1;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+}
+
+.no-favorites-icon {
+  color: var(--highlight-clr);
+  font-size: 2em;
+  grid-column: 1 / -1;
+  align-self: start;
+  text-align: center;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* .favorite-sound-icon {
   position: absolute;
   top: 0;
   left: 0;
   padding: 0.5em;
-}
+} */
 
 /* .quote-container {
   text-align: center;

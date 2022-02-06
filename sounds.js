@@ -3,7 +3,7 @@ export const soundData = [
     id: 1,
     name: "Crowd Laugh",
     url: "/sounds/mixkit-crowd-laugh-424.wav",
-    isFavorite: true,
+    isFavorite: false,
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const soundData = [
     id: 3,
     name: "Sweep",
     url: "/sounds/mixkit-fast-small-sweep-transition-166.wav",
-    isFavorite: true,
+    isFavorite: false,
   },
   {
     id: 4,

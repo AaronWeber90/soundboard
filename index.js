@@ -5,24 +5,18 @@ const favoriteSoundsBtn = document.querySelector(".favorite-sounds-btn");
 const allSoundsBtn = document.querySelector(".all-sounds-btn");
 let audio = null;
 
-let favSoundsArr = [];
+let favSoundsArr = [...soundData];
 
 // RENDER SOUND BUTTON
 function renderSoundBtn(sound, index, arr) {
   const soundBtn = document.createElement("div");
-  // const soundBtnTop = document.createElement("div");
-  // const soundBtnBottom = document.createElement("div");
   soundBtn.classList.add("sound-btn");
   soundBtn.textContent = sound.name;
-
-  const favoriteIconEl = document.createElement("div");
-  favoriteIconEl.textContent = sound.isFavorite ? "❤️" : "🤍";
-  favoriteIconEl.classList.add("favorite-sound-icon");
-  favoriteIconEl.addEventListener("mousedown", () => mouseDown(sound));
-  favoriteIconEl.addEventListener("mouseup", () => mouseUp());
-
+  soundBtn.addEventListener("mousedown", () => mouseDown(sound));
+  // soundBtn.addEventListener("ontouchstart", () => mouseDown(sound));
+  soundBtn.addEventListener("mouseup", () => mouseUp());
+  // soundBtn.addEventListener("ontouchend", () => mouseUp());
   sound.isFavorite && soundBtn.classList.add("sound-favorite");
-  soundBtn.appendChild(favoriteIconEl);
   soundBtn.addEventListener("click", () => playSound(soundBtn, arr, sound));
   soundContainer.appendChild(soundBtn);
 }
@@ -31,7 +25,7 @@ let timer = null;
 const tempo = 1000;
 const mouseDown = (sound) => {
   timer = setTimeout(() => {
-    favSoundsArr = soundData.map((item) => {
+    favSoundsArr = favSoundsArr.map((item) => {
       return item.id === sound.id
         ? {
             ...item,
@@ -39,16 +33,8 @@ const mouseDown = (sound) => {
           }
         : item;
     });
+    renderSoundContainer(favSoundsArr);
     console.log(favSoundsArr);
-
-    // console.log({
-    //   ...sound,
-    //   isFavorite: !sound.isFavorite,
-    // });
-    // return {
-    //   ...sound,
-    //   isFavorite: !sound.isFavorite,
-    // };
   }, tempo);
 };
 const mouseUp = () => {
@@ -57,19 +43,30 @@ const mouseUp = () => {
 
 // RENDER SOUND CONTAINER
 function renderSoundContainer(arr) {
-  soundContainer.innerHTML = "";
-  arr.forEach((sound, index, arr) =>
-    renderSoundBtn(sound, index, arr, sound.id)
-  );
+  if (arr.length) {
+    soundContainer.innerHTML = "";
+    arr.forEach((sound, index, arr) =>
+      renderSoundBtn(sound, index, arr, sound.id)
+    );
+  } else {
+    soundContainer.innerHTML = `
+    <div class="no-favorites-text">No favorites yet. Press and hold a sound to save them as favorite.</div>
+    <p class="no-favorites-icon"><i class="fas fa-exclamation-triangle"></i></p>
+ 
+    `;
+  }
 }
 renderSoundContainer(soundData);
 
 // RENDER ALL SOUNDS
-allSoundsBtn.addEventListener("click", () => renderSoundContainer(soundData));
+allSoundsBtn.addEventListener("click", () =>
+  renderSoundContainer(favSoundsArr)
+);
 
 // RENDER FAVORITE SOUNDS
 favoriteSoundsBtn.addEventListener("click", () => {
   const favoriteSounds = favSoundsArr.filter((sound) => sound.isFavorite);
+  console.log(favoriteSounds);
   renderSoundContainer(favoriteSounds);
 });
 
