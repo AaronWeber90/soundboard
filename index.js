@@ -12,6 +12,15 @@ function renderSoundBtn(sound, index, arr) {
   const soundBtn = document.createElement("div");
   soundBtn.classList.add("sound-btn");
   soundBtn.textContent = sound.name;
+
+  const soundProgress = document.createElement("progress");
+  soundProgress.style.width = "100%";
+  soundProgress.max = "100";
+  soundProgress.value = "0";
+  soundProgress.classList.add("sound-progress");
+
+  soundBtn.appendChild(soundProgress);
+
   soundBtn.addEventListener("mousedown", () => mouseDown(sound));
   // soundBtn.addEventListener("ontouchstart", () => mouseDown(sound));
   soundBtn.addEventListener("mouseup", () => mouseUp());
@@ -21,6 +30,7 @@ function renderSoundBtn(sound, index, arr) {
   soundContainer.appendChild(soundBtn);
 }
 
+// LONG HOLD TO FAVORITE
 let timer = null;
 const tempo = 1000;
 const mouseDown = (sound) => {
@@ -52,7 +62,6 @@ function renderSoundContainer(arr) {
     soundContainer.innerHTML = `
     <div class="no-favorites-text">No favorites yet. Press and hold a sound to save them as favorite.</div>
     <p class="no-favorites-icon"><i class="fas fa-exclamation-triangle"></i></p>
- 
     `;
   }
 }
@@ -72,16 +81,28 @@ favoriteSoundsBtn.addEventListener("click", () => {
 
 //PLAY SOUND
 function playSound(soundBtn, arr, sound) {
+  let durationTime = null;
+
   if (audio === null) {
     audio = new Audio(arr[sound.id - 1].url);
     audio.play();
     soundBtn.classList.add("active");
+    durationTime = setInterval(() => {
+      document.querySelector(".active progress").value = Math.ceil(
+        (audio.currentTime / audio.duration) * 100
+      );
+      console.log(parseInt(document.querySelector(".active progress").value));
+    }, 10);
   } else if (!soundBtn.classList.contains("active")) {
     audio.pause();
     audio.currentTime = 0;
     for (let btn of document.querySelectorAll(".sound-btn")) {
       btn.classList.remove("active");
     }
+    for (let progressBar of document.querySelectorAll(".active progress")) {
+      progressBar.value = "0";
+    }
+
     audio = new Audio(soundData[sound.id - 1].url);
     soundBtn.classList.add("active");
     audio.play();
@@ -90,12 +111,16 @@ function playSound(soundBtn, arr, sound) {
   } else {
     audio.play();
   }
-  soundEnd(soundBtn, audio);
+  console.log(audio.duration);
+  console.log(audio.currentTime);
+  soundEnd(soundBtn, audio, durationTime);
 }
 
 // SOUND END
-function soundEnd(soundBtn, audio) {
+function soundEnd(soundBtn, audio, durationTime) {
   audio.onended = () => {
+    clearInterval(durationTime);
+    document.querySelector(".active progress").value = "0";
     soundBtn.classList.remove("active");
   };
 }
@@ -114,6 +139,7 @@ navbtn.addEventListener("click", () => {
   }
 });
 
+// GRID CONTROL
 const gridSizeInput = document.getElementById("grid-size");
 const gridSizeLabel = document.getElementById("grid-size-label");
 gridSizeInput.addEventListener("change", () => {
