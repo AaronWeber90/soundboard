@@ -6,13 +6,13 @@ const allSoundsBtn = document.querySelector(".all-sounds-btn");
 let audio = null;
 
 let favSoundsArr = [...soundData];
+let showFavoriteSounds = false;
 
 // RENDER SOUND BUTTON
 function renderSoundBtn(sound, index, arr) {
   const soundBtn = document.createElement("div");
   soundBtn.classList.add("sound-btn");
   soundBtn.textContent = sound.name;
-
   const soundProgress = document.createElement("progress");
   soundProgress.style.width = "100%";
   soundProgress.max = "100";
@@ -74,6 +74,7 @@ allSoundsBtn.addEventListener("click", () =>
 
 // RENDER FAVORITE SOUNDS
 favoriteSoundsBtn.addEventListener("click", () => {
+  showFavoriteSounds = true;
   const favoriteSounds = favSoundsArr.filter((sound) => sound.isFavorite);
   console.log(favoriteSounds);
   renderSoundContainer(favoriteSounds);
@@ -82,17 +83,21 @@ favoriteSoundsBtn.addEventListener("click", () => {
 //PLAY SOUND
 function playSound(soundBtn, arr, sound) {
   let durationTime = null;
-
-  if (audio === null) {
-    audio = new Audio(arr[sound.id - 1].url);
-    audio.play();
-    soundBtn.classList.add("active");
-    durationTime = setInterval(() => {
+  let isPaused = false;
+  durationTime = setInterval(() => {
+    if (!isPaused) {
       document.querySelector(".active progress").value = Math.ceil(
         (audio.currentTime / audio.duration) * 100
       );
       console.log(parseInt(document.querySelector(".active progress").value));
-    }, 10);
+    }
+  }, 10);
+
+  // START AUDIO
+  if (audio === null) {
+    audio = new Audio(arr[sound.id - 1].url);
+    audio.play();
+    soundBtn.classList.add("active");
   } else if (!soundBtn.classList.contains("active")) {
     audio.pause();
     audio.currentTime = 0;
@@ -108,10 +113,12 @@ function playSound(soundBtn, arr, sound) {
     audio.play();
   } else if (!audio.paused) {
     audio.pause();
+    clearInterval(durationTime);
+    isPaused = true;
   } else {
     audio.play();
   }
-  console.log(audio.duration);
+  // console.log(audio.duration);
   console.log(audio.currentTime);
   soundEnd(soundBtn, audio, durationTime);
 }
@@ -120,6 +127,7 @@ function playSound(soundBtn, arr, sound) {
 function soundEnd(soundBtn, audio, durationTime) {
   audio.onended = () => {
     clearInterval(durationTime);
+    // durationTime = null;
     document.querySelector(".active progress").value = "0";
     soundBtn.classList.remove("active");
   };
