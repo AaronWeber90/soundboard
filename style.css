@@ -12,7 +12,7 @@
   --menu-background-clr: rgba(0, 0, 0, 0.965);
   --soundbard-text-clr: #000;
   --sound-btn-clr: #fff;
-  --sound-btn-shadow: #c7000088;
+  --sound-btn-shadow: #c70000f1;
   --menu-text-clr: #fff;
   --highlight-clr: #c70000;
   --menu-btn-clr: #fbf7f5;
@@ -157,9 +157,9 @@ h1 span {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
-  -webkit-box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
-  -moz-box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
+  /* box-shadow: 0px 0px 15px var(--sound-btn-shadow); */
+  /* -webkit-box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px;
+  -moz-box-shadow: var(--sound-btn-shadow) 0px 10px 8px 0px; */
   background: var(--sound-btn-clr);
   position: relative;
   transition: 200ms;
@@ -211,13 +211,13 @@ h1 span {
   opacity: 0.7;
 }
 
-/* .sound-progress progress[value] {
-  width: 250px;
-  height: 20px;
-} */
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
 
 progress[value] {
-  /* Reset the default appearance */
   -webkit-appearance: none;
   appearance: none;
   position: absolute;
@@ -227,41 +227,16 @@ progress[value] {
   height: 8px;
   border: none;
 }
+
+progress[value]::-moz-progress-bar {
+  background: var(--highlight-clr);
+}
+
 /* .favorite-sound-icon {
   position: absolute;
   top: 0;
   left: 0;
   padding: 0.5em;
-} */
-
-/* .quote-container {
-  text-align: center;
-}
-
-.quote-container p {
-  margin: 0;
-}
-
-.quote-text {
-  font-weight: 400;
-  font-style: italic;
-}
-
-.quote-text::before {
-  content: '"';
-  margin-right: 0.4em;
-  color: var(--highlight-clr);
-}
-
-.quote-text::after {
-  content: '"';
-  margin-left: 0.4em;
-  color: var(--highlight-clr);
-}
-
-.quote-owner {
-  font-weight: 400;
-  color: var(--highlight-clr);
 } */
 
 @keyframes isPlaying {

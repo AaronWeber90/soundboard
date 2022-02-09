@@ -35,18 +35,48 @@ let timer = null;
 const tempo = 1000;
 const mouseDown = (sound) => {
   timer = setTimeout(() => {
-    favSoundsArr = favSoundsArr.map((item) => {
-      return item.id === sound.id
-        ? {
-            ...item,
-            isFavorite: !item.isFavorite,
-          }
-        : item;
-    });
+    if (showFavoriteSounds) {
+      favSoundsArr = favSoundsArr.map((item) => {
+        return item.id === sound.id
+          ? {
+              ...item,
+              isFavorite: !item.isFavorite,
+            }
+          : {};
+      });
+    } else {
+      favSoundsArr = favSoundsArr.map((item) => {
+        return item.id === sound.id
+          ? {
+              ...item,
+              isFavorite: !item.isFavorite,
+            }
+          : item;
+      });
+    }
+
+    // favSoundsArr = favSoundsArr.map((item) => {
+    //   if (showFavoriteSounds) {
+    //     return item.id === sound.id
+    //       ? {
+    //           ...item,
+    //           isFavorite: !item.isFavorite,
+    //         }
+    //       : item;
+    //   } else {
+    //     return item.id === sound.id
+    //       ? {
+    //           ...item,
+    //           isFavorite: !item.isFavorite,
+    //         }
+    //       : item;
+    //   }
+
     renderSoundContainer(favSoundsArr);
     console.log(favSoundsArr);
   }, tempo);
 };
+
 const mouseUp = () => {
   clearTimeout(timer);
 };
@@ -81,23 +111,22 @@ favoriteSoundsBtn.addEventListener("click", () => {
 });
 
 //PLAY SOUND
+let durationTime = null;
+let isPaused = false;
 function playSound(soundBtn, arr, sound) {
-  let durationTime = null;
-  let isPaused = false;
-  durationTime = setInterval(() => {
-    if (!isPaused) {
+  // START AUDIO
+  if (audio === null) {
+    durationTime = null;
+    audio = new Audio(arr[sound.id - 1].url);
+    audio.play();
+    soundBtn.classList.add("active");
+    durationTime = setInterval(() => {
       document.querySelector(".active progress").value = Math.ceil(
         (audio.currentTime / audio.duration) * 100
       );
       console.log(parseInt(document.querySelector(".active progress").value));
-    }
-  }, 10);
-
-  // START AUDIO
-  if (audio === null) {
-    audio = new Audio(arr[sound.id - 1].url);
-    audio.play();
-    soundBtn.classList.add("active");
+    }, 10);
+    // START NEXT AUDIO WHILE ACTIVE SOUND
   } else if (!soundBtn.classList.contains("active")) {
     audio.pause();
     audio.currentTime = 0;
@@ -111,6 +140,7 @@ function playSound(soundBtn, arr, sound) {
     audio = new Audio(soundData[sound.id - 1].url);
     soundBtn.classList.add("active");
     audio.play();
+    // PAUSE ACTIVE AUDIO
   } else if (!audio.paused) {
     audio.pause();
     clearInterval(durationTime);
