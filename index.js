@@ -111,21 +111,28 @@ favoriteSoundsBtn.addEventListener("click", () => {
 });
 
 //PLAY SOUND
-let durationTime = null;
-let isPaused = false;
+
+// let isPaused = false;
+
+// const activeProgress = document.querySelector(".active ssound-progress");
 function playSound(soundBtn, arr, sound) {
   // START AUDIO
   if (audio === null) {
-    durationTime = null;
     audio = new Audio(arr[sound.id - 1].url);
     audio.play();
     soundBtn.classList.add("active");
-    durationTime = setInterval(() => {
-      document.querySelector(".active progress").value = Math.ceil(
-        (audio.currentTime / audio.duration) * 100
-      );
-      console.log(parseInt(document.querySelector(".active progress").value));
-    }, 10);
+    durationTimeNew();
+
+    // let durationTime = null;
+    // let durationTime = setInterval(() => {
+    //   document.querySelector(".active .sound-progress").value = Math.ceil(
+    //     (audio.currentTime / audio.duration) * 100
+    //   );
+    //   console.log(parseInt(document.querySelector(".active progress").value));
+    // soundEnd(soundBtn, audio, durationTime);
+    // console.log(durationTime);
+    // }, 10);
+
     // START NEXT AUDIO WHILE ACTIVE SOUND
   } else if (!soundBtn.classList.contains("active")) {
     audio.pause();
@@ -143,24 +150,45 @@ function playSound(soundBtn, arr, sound) {
     // PAUSE ACTIVE AUDIO
   } else if (!audio.paused) {
     audio.pause();
-    clearInterval(durationTime);
-    isPaused = true;
+    durationTimeNew(true);
+    // clearInterval(durationTime);
+    // isPaused = true;
   } else {
     audio.play();
   }
   // console.log(audio.duration);
   console.log(audio.currentTime);
-  soundEnd(soundBtn, audio, durationTime);
+  soundEnd(soundBtn, audio);
+  // soundEnd(soundBtn, audio, durationTime);
 }
 
 // SOUND END
 function soundEnd(soundBtn, audio, durationTime) {
   audio.onended = () => {
-    clearInterval(durationTime);
+    // console.log(durationTime);
+    // clearInterval(durationTime);
     // durationTime = null;
-    document.querySelector(".active progress").value = "0";
+    // console.log(durationTime);
+    // console.log(typeof durationTime, durationTime);
+    document.querySelector(".active .sound-progress").value = "0";
     soundBtn.classList.remove("active");
   };
+}
+
+// INTERVALL LOGIC
+function durationTimeNew(soundPaused) {
+  let newIntervall = null;
+  newIntervall = setInterval(progressRunning, 10);
+  function progressRunning() {
+    if (soundPaused || audio.currentTime / audio.duration === 1) {
+      // clearInterval(newIntervall);
+    } else {
+      document.querySelector(".active .sound-progress").value = Math.ceil(
+        (audio.currentTime / audio.duration) * 100
+      );
+      console.log(Math.ceil((audio.currentTime / audio.duration) * 100));
+    }
+  }
 }
 
 // MENU LOGIC
