@@ -5,7 +5,8 @@ const favoriteSoundsBtn = document.querySelector(".favorite-sounds-btn");
 const allSoundsBtn = document.querySelector(".all-sounds-btn");
 let audio = null;
 
-let favSoundsArr = [...soundData];
+let soundsArr = [...soundData];
+let favSoundsArr = [];
 let showFavoriteSounds = false;
 
 // RENDER SOUND BUTTON
@@ -42,10 +43,9 @@ const mouseDown = (sound) => {
               ...item,
               isFavorite: !item.isFavorite,
             }
-          : {};
+          : item;
       });
-    } else {
-      favSoundsArr = favSoundsArr.map((item) => {
+      soundsArr = soundsArr.map((item) => {
         return item.id === sound.id
           ? {
               ...item,
@@ -53,26 +53,21 @@ const mouseDown = (sound) => {
             }
           : item;
       });
+      favSoundsArr = favSoundsArr.filter((item) => item.isFavorite);
+      renderSoundContainer(favSoundsArr);
+    } else {
+      soundsArr = soundsArr.map((item) => {
+        return item.id === sound.id
+          ? {
+              ...item,
+              isFavorite: !item.isFavorite,
+            }
+          : item;
+      });
+      favSoundsArr = soundsArr.filter((item) => item.isFavorite);
+      renderSoundContainer(soundsArr);
     }
-
-    // favSoundsArr = favSoundsArr.map((item) => {
-    //   if (showFavoriteSounds) {
-    //     return item.id === sound.id
-    //       ? {
-    //           ...item,
-    //           isFavorite: !item.isFavorite,
-    //         }
-    //       : item;
-    //   } else {
-    //     return item.id === sound.id
-    //       ? {
-    //           ...item,
-    //           isFavorite: !item.isFavorite,
-    //         }
-    //       : item;
-    //   }
-
-    renderSoundContainer(favSoundsArr);
+    console.log(soundsArr);
     console.log(favSoundsArr);
   }, tempo);
 };
@@ -90,7 +85,7 @@ function renderSoundContainer(arr) {
     );
   } else {
     soundContainer.innerHTML = `
-    <div class="no-favorites-text">No favorites yet. Press and hold a sound to save them as favorite.</div>
+    <div class="no-favorites-text">No favorites. Press and hold a sound to save them as favorite.</div>
     <p class="no-favorites-icon"><i class="fas fa-exclamation-triangle"></i></p>
     `;
   }
@@ -98,23 +93,20 @@ function renderSoundContainer(arr) {
 renderSoundContainer(soundData);
 
 // RENDER ALL SOUNDS
-allSoundsBtn.addEventListener("click", () =>
-  renderSoundContainer(favSoundsArr)
-);
+allSoundsBtn.addEventListener("click", () => {
+  showFavoriteSounds = false;
+  renderSoundContainer(soundsArr);
+});
 
 // RENDER FAVORITE SOUNDS
 favoriteSoundsBtn.addEventListener("click", () => {
   showFavoriteSounds = true;
-  const favoriteSounds = favSoundsArr.filter((sound) => sound.isFavorite);
-  console.log(favoriteSounds);
-  renderSoundContainer(favoriteSounds);
+  // const favoriteSounds = favSoundsArr.map((sound) => sound.isFavorite);
+  // console.log(favoriteSounds);
+  renderSoundContainer(favSoundsArr);
 });
 
 //PLAY SOUND
-
-// let isPaused = false;
-
-// const activeProgress = document.querySelector(".active ssound-progress");
 function playSound(soundBtn, arr, sound) {
   // START AUDIO
   if (audio === null) {
@@ -150,14 +142,14 @@ function playSound(soundBtn, arr, sound) {
     // PAUSE ACTIVE AUDIO
   } else if (!audio.paused) {
     audio.pause();
-    durationTimeNew(true);
+    // durationTimeNew();
     // clearInterval(durationTime);
     // isPaused = true;
   } else {
     audio.play();
   }
   // console.log(audio.duration);
-  console.log(audio.currentTime);
+  // console.log(audio.currentTime);
   soundEnd(soundBtn, audio);
   // soundEnd(soundBtn, audio, durationTime);
 }
@@ -166,30 +158,68 @@ function playSound(soundBtn, arr, sound) {
 function soundEnd(soundBtn, audio, durationTime) {
   audio.onended = () => {
     // console.log(durationTime);
-    // clearInterval(durationTime);
     // durationTime = null;
     // console.log(durationTime);
     // console.log(typeof durationTime, durationTime);
+    // durationTimeNew("pause");
+    console.log(newIntervall);
+    durationTimeNew();
     document.querySelector(".active .sound-progress").value = "0";
     soundBtn.classList.remove("active");
   };
 }
 
-// INTERVALL LOGIC
-function durationTimeNew(soundPaused) {
+// let newIntervall = null;
+
+// function durationTimeNew() {
+//   clearInterval(newIntervall);
+//   newIntervall = null;
+//   newIntervall = setInterval(progressRunning, 10);
+//   function progressRunning() {
+//     if (Math.ceil((audio.currentTime / audio.duration) * 100) < 100) {
+
+//       document.querySelector(".active .sound-progress").value = Math.ceil(
+//         (audio.currentTime / audio.duration) * 100
+//       );
+//       console.log(Math.ceil((audio.currentTime / audio.duration) * 100));
+//       console.log(newIntervall);
+//     } else {
+//       console.log(Math.ceil((audio.currentTime / audio.duration) * 100));
+//       clearInterval(newIntervall);
+//       newIntervall = null;
+//       console.log(newIntervall);
+
+//     }
+//   }
+// }
+
+function durationTimeNew() {
   let newIntervall = null;
-  newIntervall = setInterval(progressRunning, 10);
-  function progressRunning() {
-    if (soundPaused || audio.currentTime / audio.duration === 1) {
-      // clearInterval(newIntervall);
-    } else {
+  if (newIntervall) {
+    newIntervall = null;
+    clearInterval(newIntervall);
+  } else {
+    newIntervall = setInterval(() => {
       document.querySelector(".active .sound-progress").value = Math.ceil(
         (audio.currentTime / audio.duration) * 100
       );
-      console.log(Math.ceil((audio.currentTime / audio.duration) * 100));
-    }
+    }, 10);
   }
 }
+
+// function move() {
+//   const element = document.getElementById("myBar");
+//   let width = 0;
+//   let id = setInterval(frame, 10);
+//   function frame() {
+//     if (width == 100) {
+//       clearInterval(id);
+//     } else {
+//       width++;
+//       element.style.width = width + "%";
+//     }
+//   }
+// }
 
 // MENU LOGIC
 const navbtn = document.getElementById("nav-btn");
