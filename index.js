@@ -3,8 +3,8 @@ import {soundData} from "./sounds.js";
 let soundContainer = document.querySelector(".sound-container");
 const favoriteSoundsBtn = document.querySelector(".favorite-sounds-btn");
 const allSoundsBtn = document.querySelector(".all-sounds-btn");
-let audio = null;
 
+let audio = null;
 let soundsArr = [...soundData];
 let favSoundsArr = [];
 let showFavoriteSounds = false;
@@ -14,8 +14,11 @@ function renderSoundBtn(sound, index, arr) {
   const soundBtn = document.createElement("div");
   soundBtn.classList.add("sound-btn");
   soundBtn.textContent = sound.name;
+  const soundStatusEl = document.createElement("div");
+  soundStatusEl.classList.add("sound-status");
+  soundBtn.appendChild(soundStatusEl);
+
   const soundProgress = document.createElement("progress");
-  soundProgress.style.width = "100%";
   soundProgress.max = "100";
   soundProgress.value = "0";
   soundProgress.classList.add("sound-progress");
@@ -113,6 +116,7 @@ function playSound(soundBtn, arr, sound) {
     audio = new Audio(arr[sound.id - 1].url);
     audio.play();
     soundBtn.classList.add("active");
+    setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
     durationTimeNew();
 
     // let durationTime = null;
@@ -139,29 +143,34 @@ function playSound(soundBtn, arr, sound) {
     audio = new Audio(soundData[sound.id - 1].url);
     soundBtn.classList.add("active");
     audio.play();
+    setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
     // PAUSE ACTIVE AUDIO
   } else if (!audio.paused) {
     audio.pause();
+    setSoundStatus(sound.id, '<i class="fas fa-play-circle"></i>');
     // durationTimeNew();
     // clearInterval(durationTime);
     // isPaused = true;
+
+    //PLAY AFTER PAUSED
   } else {
     audio.play();
+    setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
   }
   // console.log(audio.duration);
   // console.log(audio.currentTime);
-  soundEnd(soundBtn, audio);
-  // soundEnd(soundBtn, audio, durationTime);
+  soundEnd(soundBtn, audio, sound);
 }
 
 // SOUND END
-function soundEnd(soundBtn, audio, durationTime) {
+function soundEnd(soundBtn, audio, sound) {
   audio.onended = () => {
     // console.log(durationTime);
     // durationTime = null;
     // console.log(durationTime);
     // console.log(typeof durationTime, durationTime);
     // durationTimeNew("pause");
+    setSoundStatus(sound.id, "");
     console.log(newIntervall);
     durationTimeNew();
     document.querySelector(".active .sound-progress").value = "0";
@@ -169,8 +178,13 @@ function soundEnd(soundBtn, audio, durationTime) {
   };
 }
 
-// let newIntervall = null;
+// RENDER SOUND STATUS ICON
+function setSoundStatus(soundId, content) {
+  const allSoundStatusEl = document.querySelectorAll(".sound-status");
+  allSoundStatusEl[soundId - 1].innerHTML = content;
+}
 
+// let newIntervall = null;
 // function durationTimeNew() {
 //   clearInterval(newIntervall);
 //   newIntervall = null;
