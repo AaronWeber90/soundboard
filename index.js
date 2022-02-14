@@ -8,6 +8,7 @@ let audio = null;
 let soundsArr = [...soundData];
 let favSoundsArr = [];
 let showFavoriteSounds = false;
+let volume = 0.9;
 
 // RENDER SOUND BUTTON
 function renderSoundBtn(sound, index, arr) {
@@ -114,6 +115,7 @@ function playSound(soundBtn, arr, sound) {
   // START AUDIO
   if (audio === null) {
     audio = new Audio(arr[sound.id - 1].url);
+    audio.volume = volume;
     audio.play();
     soundBtn.classList.add("active");
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
@@ -142,6 +144,7 @@ function playSound(soundBtn, arr, sound) {
 
     audio = new Audio(soundData[sound.id - 1].url);
     soundBtn.classList.add("active");
+    audio.volume = volume;
     audio.play();
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
     // PAUSE ACTIVE AUDIO
@@ -154,6 +157,7 @@ function playSound(soundBtn, arr, sound) {
 
     //PLAY AFTER PAUSED
   } else {
+    audio.volume = volume;
     audio.play();
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
   }
@@ -235,6 +239,23 @@ function durationTimeNew() {
 //   }
 // }
 
+// VOLUME LOGIC
+const volumeInput = document.getElementById("audio-volume");
+const volumeLabel = document.getElementById("audio-volume-label");
+const volumeIcon = document.querySelector(".volume-icon");
+volumeInput.addEventListener("change", changeVolume);
+
+function changeVolume() {
+  volume = volumeInput.value / 10;
+  volumeLabel.textContent = "Volume: " + volumeInput.value;
+  if (audio) audio.volume = volume;
+  if (volume === 0) {
+    volumeIcon.innerHTML = `<i class="fas fa-volume-mute nav-list-icon"></i>`;
+  } else {
+    volumeIcon.innerHTML = `<i class="fas fa-volume-up nav-list-icon">`;
+  }
+}
+
 // MENU LOGIC
 const navbtn = document.getElementById("nav-btn");
 const menuEl = document.querySelector(".menu-container");
@@ -268,15 +289,6 @@ gridSizeInput.addEventListener("change", () => {
   }
   soundContainer.style.gridTemplateColumns = `repeat(${gridVar}, 1fr)`;
 });
-
-// VOLUME LOGIC
-const volumeInput = document.getElementById("audio-volume");
-const volumeLabel = document.getElementById("audio-volume-label");
-
-function changeVolume(audioVar) {
-  audioVar.volume = volumeInput.value / 10;
-  volumeLabel.textContent = "Volume: " + volumeInput.value;
-}
 
 // TOGGLE THEME
 const darkThemeBtn = document.querySelector(".dark-theme-btn");
