@@ -28,7 +28,7 @@ function renderSoundBtn(sound, index, arr) {
   soundBtn.addEventListener("mousedown", () => mouseDown(sound));
   soundBtn.addEventListener("ontouchstart", () => mouseDown(sound));
   soundBtn.addEventListener("mouseup", () => mouseUp());
-  soundBtn.addEventListener("ontouchend", () => mouseUp());
+  // soundBtn.addEventListener("ontouchend", () => mouseUp());
   sound.isFavorite && soundBtn.classList.add("sound-favorite");
   soundBtn.addEventListener("click", () => playSound(soundBtn, arr, sound));
   soundContainer.appendChild(soundBtn);
