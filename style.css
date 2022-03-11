@@ -176,17 +176,6 @@ h1 span {
   opacity: 0.8;
 }
 
-/* .active:after {
-  font-family: "Font Awesome 5 Free";
-  content: "\f144";
-  font-weight: 400;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  animation: isPlaying 1s infinite linear alternate;
-}
-*/
-
 .sound-favorite::before {
   content: "❤️";
   position: absolute;

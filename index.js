@@ -19,12 +19,11 @@ function renderSoundBtn(sound, index, arr) {
   soundStatusEl.classList.add("sound-status");
   soundBtn.appendChild(soundStatusEl);
 
-  const soundProgress = document.createElement("progress");
-  soundProgress.max = "100";
-  soundProgress.value = "0";
-  soundProgress.classList.add("sound-progress");
-
-  soundBtn.appendChild(soundProgress);
+  // const soundProgress = document.createElement("progress");
+  // soundProgress.max = "100";
+  // soundProgress.value = "0";
+  // soundProgress.classList.add("sound-progress");
+  // soundBtn.appendChild(soundProgress);
 
   soundBtn.addEventListener("mousedown", () => mouseDown(sound));
   // soundBtn.addEventListener("ontouchstart", () => mouseDown(sound));
@@ -105,8 +104,6 @@ allSoundsBtn.addEventListener("click", () => {
 // RENDER FAVORITE SOUNDS
 favoriteSoundsBtn.addEventListener("click", () => {
   showFavoriteSounds = true;
-  // const favoriteSounds = favSoundsArr.map((sound) => sound.isFavorite);
-  // console.log(favoriteSounds);
   renderSoundContainer(favSoundsArr);
 });
 
@@ -119,17 +116,7 @@ function playSound(soundBtn, arr, sound) {
     audio.play();
     soundBtn.classList.add("active");
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
-    durationTimeNew();
-
-    // let durationTime = null;
-    // let durationTime = setInterval(() => {
-    //   document.querySelector(".active .sound-progress").value = Math.ceil(
-    //     (audio.currentTime / audio.duration) * 100
-    //   );
-    //   console.log(parseInt(document.querySelector(".active progress").value));
-    // soundEnd(soundBtn, audio, durationTime);
-    // console.log(durationTime);
-    // }, 10);
+    // durationTimeNew();
 
     // START NEXT AUDIO WHILE ACTIVE SOUND
   } else if (!soundBtn.classList.contains("active")) {
@@ -138,9 +125,9 @@ function playSound(soundBtn, arr, sound) {
     for (let btn of document.querySelectorAll(".sound-btn")) {
       btn.classList.remove("active");
     }
-    for (let progressBar of document.querySelectorAll(".active progress")) {
-      progressBar.value = "0";
-    }
+    // for (let progressBar of document.querySelectorAll(".active progress")) {
+    //   progressBar.value = "0";
+    // }
 
     audio = new Audio(soundData[sound.id - 1].url);
     soundBtn.classList.add("active");
@@ -151,9 +138,6 @@ function playSound(soundBtn, arr, sound) {
   } else if (!audio.paused) {
     audio.pause();
     setSoundStatus(sound.id, '<i class="fas fa-play-circle"></i>');
-    // durationTimeNew();
-    // clearInterval(durationTime);
-    // isPaused = true;
 
     //PLAY AFTER PAUSED
   } else {
@@ -161,23 +145,15 @@ function playSound(soundBtn, arr, sound) {
     audio.play();
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
   }
-  // console.log(audio.duration);
-  // console.log(audio.currentTime);
   soundEnd(soundBtn, audio, sound);
 }
 
 // SOUND END
 function soundEnd(soundBtn, audio, sound) {
   audio.onended = () => {
-    // console.log(durationTime);
-    // durationTime = null;
-    // console.log(durationTime);
-    // console.log(typeof durationTime, durationTime);
-    // durationTimeNew("pause");
     setSoundStatus(sound.id, "");
-    console.log(newIntervall);
-    durationTimeNew();
-    document.querySelector(".active .sound-progress").value = "0";
+    // durationTimeNew();
+    // document.querySelector(".active .sound-progress").value = "0";
     soundBtn.classList.remove("active");
   };
 }
@@ -185,57 +161,23 @@ function soundEnd(soundBtn, audio, sound) {
 // RENDER SOUND STATUS ICON
 function setSoundStatus(soundId, content) {
   const allSoundStatusEl = document.querySelectorAll(".sound-status");
+  for (let sounds of allSoundStatusEl) {
+    sounds.innerHTML = "";
+  }
   allSoundStatusEl[soundId - 1].innerHTML = content;
 }
 
-// let newIntervall = null;
 // function durationTimeNew() {
-//   clearInterval(newIntervall);
-//   newIntervall = null;
-//   newIntervall = setInterval(progressRunning, 10);
-//   function progressRunning() {
-//     if (Math.ceil((audio.currentTime / audio.duration) * 100) < 100) {
-
+//   let newIntervall = null;
+//   if (newIntervall) {
+//     newIntervall = null;
+//     clearInterval(newIntervall);
+//   } else {
+//     newIntervall = setInterval(() => {
 //       document.querySelector(".active .sound-progress").value = Math.ceil(
 //         (audio.currentTime / audio.duration) * 100
 //       );
-//       console.log(Math.ceil((audio.currentTime / audio.duration) * 100));
-//       console.log(newIntervall);
-//     } else {
-//       console.log(Math.ceil((audio.currentTime / audio.duration) * 100));
-//       clearInterval(newIntervall);
-//       newIntervall = null;
-//       console.log(newIntervall);
-
-//     }
-//   }
-// }
-
-function durationTimeNew() {
-  let newIntervall = null;
-  if (newIntervall) {
-    newIntervall = null;
-    clearInterval(newIntervall);
-  } else {
-    newIntervall = setInterval(() => {
-      document.querySelector(".active .sound-progress").value = Math.ceil(
-        (audio.currentTime / audio.duration) * 100
-      );
-    }, 10);
-  }
-}
-
-// function move() {
-//   const element = document.getElementById("myBar");
-//   let width = 0;
-//   let id = setInterval(frame, 10);
-//   function frame() {
-//     if (width == 100) {
-//       clearInterval(id);
-//     } else {
-//       width++;
-//       element.style.width = width + "%";
-//     }
+//     }, 10);
 //   }
 // }
 
