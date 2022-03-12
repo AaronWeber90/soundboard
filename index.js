@@ -9,6 +9,7 @@ let soundsArr = [...soundData];
 let favSoundsArr = [];
 let showFavoriteSounds = false;
 let volume = 0.9;
+let audioSpeed = 2;
 
 // RENDER SOUND BUTTON
 function renderSoundBtn(sound, index, arr) {
@@ -18,12 +19,6 @@ function renderSoundBtn(sound, index, arr) {
   const soundStatusEl = document.createElement("div");
   soundStatusEl.classList.add("sound-status");
   soundBtn.appendChild(soundStatusEl);
-
-  // const soundProgress = document.createElement("progress");
-  // soundProgress.max = "100";
-  // soundProgress.value = "0";
-  // soundProgress.classList.add("sound-progress");
-  // soundBtn.appendChild(soundProgress);
 
   soundBtn.addEventListener("mousedown", () => mouseDown(sound));
   soundBtn.addEventListener("touchstart", () => mouseDown(sound));
@@ -113,10 +108,10 @@ function playSound(soundBtn, arr, sound) {
   if (audio === null) {
     audio = new Audio(arr[sound.id - 1].url);
     audio.volume = volume;
+    audio.playbackRate = audioSpeed;
     audio.play();
     soundBtn.classList.add("active");
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
-    // durationTimeNew();
 
     // START NEXT AUDIO WHILE ACTIVE SOUND
   } else if (!soundBtn.classList.contains("active")) {
@@ -125,13 +120,11 @@ function playSound(soundBtn, arr, sound) {
     for (let btn of document.querySelectorAll(".sound-btn")) {
       btn.classList.remove("active");
     }
-    // for (let progressBar of document.querySelectorAll(".active progress")) {
-    //   progressBar.value = "0";
-    // }
 
     audio = new Audio(soundData[sound.id - 1].url);
     soundBtn.classList.add("active");
     audio.volume = volume;
+    audio.playbackRate = audioSpeed;
     audio.play();
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
     // PAUSE ACTIVE AUDIO
@@ -142,6 +135,7 @@ function playSound(soundBtn, arr, sound) {
     //PLAY AFTER PAUSED
   } else {
     audio.volume = volume;
+    audio.playbackRate = audioSpeed;
     audio.play();
     setSoundStatus(sound.id, '<i class="fas fa-pause-circle"></i>');
   }
@@ -152,8 +146,6 @@ function playSound(soundBtn, arr, sound) {
 function soundEnd(soundBtn, audio, sound) {
   audio.onended = () => {
     setSoundStatus(sound.id, "");
-    // durationTimeNew();
-    // document.querySelector(".active .sound-progress").value = "0";
     soundBtn.classList.remove("active");
   };
 }
@@ -166,20 +158,6 @@ function setSoundStatus(soundId, content) {
   }
   allSoundStatusEl[soundId - 1].innerHTML = content;
 }
-
-// function durationTimeNew() {
-//   let newIntervall = null;
-//   if (newIntervall) {
-//     newIntervall = null;
-//     clearInterval(newIntervall);
-//   } else {
-//     newIntervall = setInterval(() => {
-//       document.querySelector(".active .sound-progress").value = Math.ceil(
-//         (audio.currentTime / audio.duration) * 100
-//       );
-//     }, 10);
-//   }
-// }
 
 // VOLUME LOGIC
 const volumeInput = document.getElementById("audio-volume");
@@ -245,3 +223,11 @@ lightThemeBtn.addEventListener("click", () => {
 });
 
 //AUDIO SPEED
+const speedInput = document.getElementById("audio-speed");
+const speedLabel = document.getElementById("audio-speed-label");
+speedInput.addEventListener("change", changeSpeed);
+function changeSpeed() {
+  audioSpeed = Number(speedInput.value);
+  speedLabel.textContent = "Speed: " + speedInput.value;
+  if (audio) audio.playbackRate = audioSpeed;
+}
