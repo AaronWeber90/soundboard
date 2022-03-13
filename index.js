@@ -9,7 +9,7 @@ let soundsArr = [...soundData];
 let favSoundsArr = [];
 let showFavoriteSounds = false;
 let volume = 0.9;
-let audioSpeed = 2;
+let audioSpeed = 1;
 
 // RENDER SOUND BUTTON
 function renderSoundBtn(sound, index, arr) {

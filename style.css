@@ -94,7 +94,18 @@ header span {
 }
 
 .menu-btn {
+  background: #c0bbbb;
+  font-family: inherit;
+  padding: 0.6em 1.2em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 20px;
+  letter-spacing: 1px;
+}
+
+.active-btn {
   background: var(--menu-btn-clr);
+  border: 2px solid #c0bbbb;
 }
 
 .nav-list {
@@ -114,21 +125,13 @@ header span {
   margin-right: 0.4em;
 }
 
-.nav-list button {
-  font-family: inherit;
-  padding: 0.6em 1.2em;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 20px;
-  letter-spacing: 1px;
-}
-
 .nav-list button + button {
   margin-left: 1em;
 }
 
 #grid-size,
-#audio-volume {
+#audio-volume,
+#audio-speed {
   width: 100%;
 }
 
