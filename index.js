@@ -91,15 +91,40 @@ function renderSoundContainer(arr) {
 renderSoundContainer(soundData);
 
 // RENDER ALL SOUNDS
-allSoundsBtn.addEventListener("click", () => {
+allSoundsBtn.addEventListener("click", (e) => {
   showFavoriteSounds = false;
   renderSoundContainer(soundsArr);
+  toggleActiveBtn(e);
 });
 
+const audioBtns = document.querySelectorAll(".audio-btn");
+const themeBtns = document.querySelectorAll(".theme-btn");
+
+//TOGGLE ACTICE BTN
+function toggleActiveBtn(event) {
+  audioBtns.forEach((item) => item.classList.remove("active-btn"));
+  event.target.classList.add("active-btn");
+}
+
 // RENDER FAVORITE SOUNDS
-favoriteSoundsBtn.addEventListener("click", () => {
+favoriteSoundsBtn.addEventListener("click", (e) => {
   showFavoriteSounds = true;
   renderSoundContainer(favSoundsArr);
+  toggleActiveBtn(e);
+});
+
+// TOGGLE THEME
+const darkThemeBtn = document.querySelector(".dark-theme-btn");
+const lightThemeBtn = document.querySelector(".light-theme-btn");
+
+darkThemeBtn.addEventListener("click", () => {
+  document.documentElement.className = "dark-theme";
+  toggleActiveBtn(e);
+});
+
+lightThemeBtn.addEventListener("click", () => {
+  document.documentElement.className = "light-theme";
+  toggleActiveBtn(e);
 });
 
 //PLAY SOUND
@@ -208,18 +233,6 @@ gridSizeInput.addEventListener("change", () => {
       break;
   }
   soundContainer.style.gridTemplateColumns = `repeat(${gridVar}, 1fr)`;
-});
-
-// TOGGLE THEME
-const darkThemeBtn = document.querySelector(".dark-theme-btn");
-const lightThemeBtn = document.querySelector(".light-theme-btn");
-
-darkThemeBtn.addEventListener("click", () => {
-  document.documentElement.className = "dark-theme";
-});
-
-lightThemeBtn.addEventListener("click", () => {
-  document.documentElement.className = "light-theme";
 });
 
 //AUDIO SPEED
