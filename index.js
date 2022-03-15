@@ -83,34 +83,41 @@ function renderSoundContainer(arr) {
     );
   } else {
     soundContainer.innerHTML = `
-    <div class="no-favorites-text">No favorites. Press and hold a sound to save them as favorite.</div>
+    <div class="no-favorites-text">No favorites. Press and hold a sound to save it as favorite.</div>
     <p class="no-favorites-icon"><i class="fas fa-exclamation-triangle"></i></p>
     `;
   }
 }
 renderSoundContainer(soundData);
 
+// TOGGLE MENU BTNS
+const audioBtns = document.querySelectorAll(".audio-btn");
+const themeBtns = document.querySelectorAll(".theme-btn");
+
+document.body.addEventListener("click", (e) => {
+  if (e.target.classList.contains("audio-btn")) {
+    audioBtns.forEach((item) => item.classList.remove("active-btn"));
+    e.target.classList.add("active-btn");
+  }
+});
+
+document.body.addEventListener("click", (e) => {
+  if (e.target.classList.contains("theme-btn")) {
+    themeBtns.forEach((item) => item.classList.remove("active-btn"));
+    e.target.classList.add("active-btn");
+  }
+});
+
 // RENDER ALL SOUNDS
 allSoundsBtn.addEventListener("click", (e) => {
   showFavoriteSounds = false;
   renderSoundContainer(soundsArr);
-  toggleActiveBtn(e);
 });
-
-const audioBtns = document.querySelectorAll(".audio-btn");
-const themeBtns = document.querySelectorAll(".theme-btn");
-
-//TOGGLE ACTICE BTN
-function toggleActiveBtn(event) {
-  audioBtns.forEach((item) => item.classList.remove("active-btn"));
-  event.target.classList.add("active-btn");
-}
 
 // RENDER FAVORITE SOUNDS
 favoriteSoundsBtn.addEventListener("click", (e) => {
   showFavoriteSounds = true;
   renderSoundContainer(favSoundsArr);
-  toggleActiveBtn(e);
 });
 
 // TOGGLE THEME
@@ -119,12 +126,10 @@ const lightThemeBtn = document.querySelector(".light-theme-btn");
 
 darkThemeBtn.addEventListener("click", () => {
   document.documentElement.className = "dark-theme";
-  toggleActiveBtn(e);
 });
 
 lightThemeBtn.addEventListener("click", () => {
   document.documentElement.className = "light-theme";
-  toggleActiveBtn(e);
 });
 
 //PLAY SOUND
