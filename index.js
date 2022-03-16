@@ -207,7 +207,7 @@ function changeVolume() {
 }
 
 // MENU LOGIC
-const navbtn = document.getElementById("nav-btn");
+const navbtn = document.querySelector(".nav-btn");
 const menuEl = document.querySelector(".menu-container");
 navbtn.addEventListener("click", () => {
   menuEl.classList.toggle("menu-closed");
