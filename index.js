@@ -1,4 +1,5 @@
 import {soundData} from "./sounds.js";
+import store from "./store.js";
 
 let soundContainer = document.querySelector(".sound-container");
 const favoriteSoundsBtn = document.querySelector(".favorite-sounds-btn");
@@ -249,3 +250,8 @@ function changeSpeed() {
   speedLabel.textContent = "Speed: " + speedInput.value;
   if (audio) audio.playbackRate = audioSpeed;
 }
+// store.dispatch("ADD_FAVORITE", )
+console.log(
+  store.dispatch({type: "ADD_FAVORITE", payload: {favorite: "test"}})
+);
+console.log(store.getState());
